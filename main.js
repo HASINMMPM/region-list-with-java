@@ -14,12 +14,11 @@ countries =[]
 
 
 async function runProcess(){
-    
 
     try{
        const res = await fetch ("https://restcountries.com/v2/all")
         const data =await res.json();
-        countries =data.filter(country => country.region === regionValue);
+        countries =data
         loading.innerHTML=""  ;          // fetch cheyth kazinjal gif pokum (src onnum illa);
 
         countries.forEach( country => {
@@ -76,7 +75,6 @@ async function runProcess(){
 }
 runProcess();
 
-
 let mode =localStorage.getItem("mode");
 
 theme.addEventListener("click",()=>{
@@ -125,3 +123,4 @@ selector.addEventListener("click", () => {
         options.style.display = "none"; // Hide options when rotating back to 0 degrees
     }
 });
+
