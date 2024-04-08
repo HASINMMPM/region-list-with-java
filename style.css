@@ -34,7 +34,7 @@ ul a{
     color: var(--Grayish-blue);
 
 }
-h1{
+.hero_text h1{
     animation: 1s ease-in .5s maintext;
 }
 
