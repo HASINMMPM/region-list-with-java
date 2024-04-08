@@ -248,7 +248,7 @@ header {
     box-shadow: var(--box-shadow);
     
   }
-  
+  flag
   .options-opened {
     display: block;
   }

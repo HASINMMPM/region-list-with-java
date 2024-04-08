@@ -9,71 +9,158 @@ const triangle = document.querySelector(".triangle")
 const selector = document.querySelector(".selector")
 const options = document.querySelector(".options")
 
+const asiaRegion = document.querySelector('.region[data-value="Asia"]')
+const africaRegion = document.querySelector('.region[data-value="Africa"]')
+const europeRegion = document.querySelector('.region[data-value="Europe"]')
+const americasRegion = document.querySelector('.region[data-value="Americas"]')
+const oceaniaRegion = document.querySelector('.region[data-value="Oceania"]')
+const polarRegion = document.querySelector('.region[data-value="Polar"]')
+const allRegion = document.querySelector('.region[data-value="All"]')
+
+
 countries =[]
 
 
 
-async function runProcess(){
+async function runProcess() {
+    try {
+        const res = await fetch("https://restcountries.com/v2/all");
+        const data = await res.json();
+        countries = data;
+        loading.innerHTML = "";
 
-    try{
-       const res = await fetch ("https://restcountries.com/v2/all")
-        const data =await res.json();
-        countries =data
-        loading.innerHTML=""  ;          // fetch cheyth kazinjal gif pokum (src onnum illa);
+        countries.forEach(country => {
+            createCode(country);
+        });
 
-        countries.forEach( country => {
-            //create the main contanier
-            const countryContainer =document.createElement('div');
-            countryContainer.classList.add('country');
+        allRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            countries.forEach(country => {
+                createCode(country);
+            });
 
-            // create flag part
-            const flagContainer = document.createElement('div');
-            flagContainer.classList.add('flag-countainer');
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            const imgContainer = document.createElement('img')
-            imgContainer.classList.add('flag')
-            imgContainer.src = country.flag
 
-            // append elements  parent.appendchild(child)
-            flagContainer.appendChild(imgContainer)
-            countryContainer.appendChild(flagContainer)
+        asiaRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+        
+            const asiaCountries = countries.filter(country => country.region === 'Asia');
+            asiaCountries.forEach(country => {
+                createCode(country);
+            });
 
-            // create country part
-            const countryDetails = document.createElement('div')
-            countryDetails.classList.add('country-details')
-            countryContainer.appendChild(countryDetails)
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            const countryName = document.createElement('h2')
-            countryName.classList.add('country-name')
-            countryName.textContent =country.name;
+        africaRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            const africaCountries = countries.filter(country => country.region === 'Africa');
+            africaCountries.forEach(country => {
+                createCode(country);
+            });
 
-            countryDetails.appendChild(countryName);
-            
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            const population = document.createElement('span');
-            population.innerHTML = `<strong>Population : </strong> ${country.population}<br>`;
-            countryDetails.appendChild(population)
+        europeRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            const europeCountries = countries.filter(country => country.region === 'Europe');
+            europeCountries.forEach(country => {
+                createCode(country);
+            });
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            const region = document.createElement('span');
-            region.innerHTML = `<strong>Region : </strong> ${country.region}<br>`;
-            countryDetails.appendChild(region)
+        americasRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            const americaCountries = countries.filter(country => country.region === 'Americas');
+            americaCountries.forEach(country => {
+                createCode(country);
+            });
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            const capital = document.createElement('span');
-            capital.innerHTML = `<strong>Capital : </strong> ${country.capital}<br>`;
-            countryDetails.appendChild(capital)
+        oceaniaRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            const oceaniaCountries = countries.filter(country => country.region === 'Oceania');
+            oceaniaCountries.forEach(country => {
+                createCode(country);
+            });
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
-            // connecting to html main div
-            main.appendChild(countryContainer);
-        })
+        polarRegion.addEventListener('click', () => {
+            main.innerHTML = ''; // Clear existing countries from the main container
+            loading.innerHTML = `<img src="icons/loadingIcon.gif" alt="Loading..." />`;
+            const polarCountries = countries.filter(country => country.region === 'Polar');
+            polarCountries.forEach(country => {
+                createCode(country);
+            });
+            loading.innerHTML = ""; // Remove loading indicator when done
+        });
 
         
-
-    }
-    catch(error){
-
+    } catch (error) {
+        console.error("Error fetching or processing data:", error);
     }
 }
+
 runProcess();
+
+
+function createCode(country){
+    //create the main contanier
+    const countryContainer =document.createElement('div');
+    countryContainer.classList.add('country');
+
+    // create flag part
+    const flagContainer = document.createElement('div');
+    flagContainer.classList.add('flag-countainer');
+
+    const imgContainer = document.createElement('img')
+    imgContainer.classList.add('flag')
+    imgContainer.src = country.flag
+
+    // append elements  parent.appendchild(child)
+    flagContainer.appendChild(imgContainer)
+    countryContainer.appendChild(flagContainer)
+
+    // create country part
+    const countryDetails = document.createElement('div')
+    countryDetails.classList.add('country-details')
+    countryContainer.appendChild(countryDetails)
+
+    const countryName = document.createElement('h2')
+    countryName.classList.add('country-name')
+    countryName.textContent =country.name;
+
+    countryDetails.appendChild(countryName);
+    
+
+    const population = document.createElement('span');
+    population.innerHTML = `<strong>Population : </strong> ${country.population}<br>`;
+    countryDetails.appendChild(population)
+
+    const region = document.createElement('span');
+    region.innerHTML = `<strong>Region : </strong> ${country.region}<br>`;
+    countryDetails.appendChild(region)
+
+    const capital = document.createElement('span');
+    capital.innerHTML = `<strong>Capital : </strong> ${country.capital}<br>`;
+    countryDetails.appendChild(capital)
+
+    // connecting to html main div
+    main.appendChild(countryContainer);
+   
+}
 
 let mode =localStorage.getItem("mode");
 
@@ -123,4 +210,16 @@ selector.addEventListener("click", () => {
         options.style.display = "none"; // Hide options when rotating back to 0 degrees
     }
 });
+
+
+
+
+
+
+// Filter countries based on the "Asia" region
+// const asiaCountries = countries.filter(country => country.region === 'Asia');
+
+// asiaRegion.addEventListener('click', () => {
+//     console.log(asiaCountries);
+// });
 
