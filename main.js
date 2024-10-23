@@ -8,6 +8,9 @@ const modetext = document.querySelector(".mode-text")
 const triangle = document.querySelector(".triangle")
 const selector = document.querySelector(".selector")
 const options = document.querySelector(".options")
+const search = document.getElementById("search");
+const searchcontainer = document.getElementById("search-container")
+
 
 const asiaRegion = document.querySelector('.region[data-value="Asia"]')
 const africaRegion = document.querySelector('.region[data-value="Africa"]')
@@ -18,7 +21,8 @@ const polarRegion = document.querySelector('.region[data-value="Polar"]')
 const allRegion = document.querySelector('.region[data-value="All"]')
 
 
-countries =[]
+
+countries=[]
 
 
 
@@ -28,7 +32,6 @@ async function runProcess() {
         const data = await res.json();
         countries = data;
         loading.innerHTML = "";
-
         countries.forEach(country => {
             createCode(country);
         });
@@ -212,14 +215,57 @@ selector.addEventListener("click", () => {
 });
 
 
+search.addEventListener("click", ()=>{
+    
+        const searchList = document.createElement('ul');
+        searchList.classList.add('search-list');
+    
+        const searchItem = document.createElement('li'); 
+        searchItem.classList.add('search-item');
 
+        const searchhead = document.createElement("h3")
+        searchhead.textContent =country.name;
+    
 
+        searchList.appendChild(searchItem)
+        searchcontainer.appendChild(searchList)
+        searchItem.appendChild(searchhead)
 
+})
 
-// Filter countries based on the "Asia" region
-// const asiaCountries = countries.filter(country => country.region === 'Asia');
+function filterCountries(input) {
+    return countries.filter(country =>
+        country.name.toLowerCase().includes(input.toLowerCase())
+    );
+}
 
-// asiaRegion.addEventListener('click', () => {
-//     console.log(asiaCountries);
-// });
+search.addEventListener("input", () => {
+    const searchTerm = search.value.trim(); // Trim any leading/trailing whitespace
+    const filteredCountries = filterCountries(searchTerm);
 
+    const searchList = document.createElement('ul');
+    searchList.classList.add('search-list');
+
+    filteredCountries.forEach(country => {
+        const searchItem = document.createElement('li');
+    searchItem.classList.add('search-item');
+
+        const searchHead = document.createElement("h3");
+        searchHead.textContent = country.name;
+
+        // Add click event listener to show country on click
+        searchHead.addEventListener("click", () => {
+            alert(country.name); // Replace with your desired action (e.g., show country details)
+        });
+
+        searchItem.appendChild(searchHead);
+        searchList.appendChild(searchItem);
+    });
+
+    // Clear previous search results
+    while (searchcontainer.firstChild) {
+        searchcontainer.removeChild(searchcontainer.firstChild);
+    }
+
+    searchcontainer.appendChild(searchList);
+});
